@@ -8,6 +8,9 @@ setuptools.setup(
   install_requires=[
     'flask',
   ],
+  package_data={
+    'project_webber': ['templates'],
+  },
   entry_points={
     'console_scripts': [
       'webber=project_webber:main',
