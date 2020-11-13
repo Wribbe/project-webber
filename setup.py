@@ -9,7 +9,7 @@ setuptools.setup(
     'flask',
   ],
   package_data={
-    'project_webber': ['templates'],
+    'project_webber': ['templates/*', 'static/*', 'schema.sql'],
   },
   entry_points={
     'console_scripts': [
