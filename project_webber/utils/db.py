@@ -45,5 +45,3 @@ def _db_get():
   if '_database' not in g:
     g._database = _db_con()
   return g._database
-
-
