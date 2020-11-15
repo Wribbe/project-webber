@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 
-from project_webber.utils import db_query, db_commit, db_execute
-from project_webber.utils import dice_create
+from project_webber.utils.db import db_query, db_commit, db_execute
+from project_webber.utils.dice import dice_create
 
 
 app = Flask(__name__)
