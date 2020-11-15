@@ -7,10 +7,12 @@ HERE = Path(__file__).parent.resolve()
 DATABASE = Path(HERE, 'project_webber.sqlite3')
 
 
-def db_execute(command, args=()):
+def db_execute(command, args=(), cursor=None):
   if type(args) not in [list, tuple]:
     args = (args,)
-  return _db_get().execute(command, args)
+  if not cursor:
+    cursor = _db_get().cursor()
+  return cursor.execute(command, args)
 
 
 def db_query(query, args=(), one=True):
@@ -52,27 +54,28 @@ def dice_create(sides, paths=[], description=""):
     'INSERT INTO dice (description) VALUES (?)', description
   )
   id_dice = cursor.lastrowid
-  cursor.close()
 
   # Create the sides.
   if not paths:
     paths = [""]*len(sides)
   id_sides = []
   for side, path in zip(sides, paths):
-    cursor = db_execute(
+    db_execute(
       'INSERT INTO dice_side (value, path_graphic) VALUES (?,?)',
-      (side, path)
+      (side, path),
+      cursor=cursor,
     )
     id_sides.append(cursor.lastrowid)
-    cursor.close()
 
   # Link the dice with the sides.
   for id_side in id_sides:
-    cursor = db_execute(
+    db_execute(
       'INSERT INTO dice_side_link (id_dice, id_side) VALUES (?,?)',
-      (id_dice, id_side)
+      (id_dice, id_side),
+      cursor=cursor
     )
-    cursor.close()
 
+  # Close the cursor and commit the changes.
+  cursor.close()
   db_commit()
   return id_dice
