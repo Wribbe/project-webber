@@ -44,4 +44,5 @@ def _db_get():
     _db_init()
   if '_database' not in g:
     g._database = _db_con()
+    g._database.row_factory = sqlite3.Row
   return g._database
