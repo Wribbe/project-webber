@@ -15,7 +15,7 @@ def db_execute(command, args=(), cursor=None):
   return cursor.execute(command, args)
 
 
-def db_query(query, args=(), one=True):
+def db_query(query, args=(), one=False):
   cursor = db_execute(query, args)
   results = cursor.fetchone() if one else cursor.fetchall()
   cursor.close()
