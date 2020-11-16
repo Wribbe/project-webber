@@ -19,6 +19,7 @@ def db_query(query, args=(), one=False):
   cursor = db_execute(query, args)
   results = cursor.fetchone() if one else cursor.fetchall()
   cursor.close()
+  results = [dict(r) for r in results]
   return results if results else []
 
 

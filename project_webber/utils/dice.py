@@ -1,4 +1,4 @@
-from project_webber.utils.db import db_execute, db_commit
+from project_webber.utils.db import db_execute, db_commit, db_query
 
 def dice_create(sides, paths=[], description=""):
 
@@ -32,3 +32,23 @@ def dice_create(sides, paths=[], description=""):
   cursor.close()
   db_commit()
   return id_dice
+
+
+def dice_all():
+  """ Return all the dice that are in the database. """
+  dice_raw = db_query('''
+    SELECT * FROM dice_side_link
+      JOIN dice_side, dice
+      ON
+        dice_side_link.id_dice == dice.id AND
+        dice_side_link.id_side == dice_side.id
+  ''')
+  dice = {}
+  for data in dice_raw:
+    dict_data = dice.setdefault(data['id_dice'], {})
+    dict_data.setdefault('sides', []).append(
+      (data['value'], data['path_graphic'])
+    )
+    dict_data['description'] = data['description']
+
+  return dice
