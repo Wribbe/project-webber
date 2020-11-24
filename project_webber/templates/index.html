@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <canvas id="c"></canvas>
   <ul>
     {% for d, vals in dice.items() %}
     <li> {{ d }} </li>
@@ -9,6 +10,5 @@
       {% endfor %}
     {% endfor %}
   </ul>
-  <canvas id="c"></canvas>
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% endblock %}
