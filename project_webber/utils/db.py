@@ -32,7 +32,7 @@ def _db_con():
 
 
 def _db_init():
-  schema = Path(HERE, 'schema.sql')
+  schema = Path(HERE.parent, 'schema.sql')
   db = _db_con()
   cursor = db.cursor()
   cursor.executescript(schema.read_text())

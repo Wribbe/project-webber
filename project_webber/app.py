@@ -9,8 +9,4 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-  import random
-  for _ in range(100):
-    dice_create(range(random.choice(range(1,100))))
-  dice = dice_all()
-  return render_template('index.html')
+  return render_template('index.html', dice=dice_all())

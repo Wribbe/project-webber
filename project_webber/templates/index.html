@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1> HELLO </h1>
+  <ul>
+    {% for d, vals in dice.items() %}
+    <li> {{ d }} </li>
+      {% for v in vals %}
+        {{ v }}
+      {% endfor %}
+    {% endfor %}
+  </ul>
 {% endblock %}

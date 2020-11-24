@@ -25,8 +25,8 @@ CREATE TABLE dice (
 
 CREATE TABLE dice_side (
   id INTEGER PRIMARY KEY AUTOINCREMENT
-  ,path_graphic STRING
   ,value STRING
+  ,path_graphic STRING
 );
 
 

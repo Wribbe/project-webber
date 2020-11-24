@@ -1,6 +1,6 @@
 from project_webber.utils.db import db_execute, db_commit, db_query
 
-def dice_create(sides, paths=[], description=""):
+def dice_create(values, paths=[], description=""):
 
   # Create the dice.
   cursor = db_execute(
@@ -10,12 +10,12 @@ def dice_create(sides, paths=[], description=""):
 
   # Create the sides.
   if not paths:
-    paths = [""]*len(sides)
+    paths = [""]*len(values)
   id_sides = []
-  for side, path in zip(sides, paths):
+  for value, path in zip(values, paths):
     db_execute(
       'INSERT INTO dice_side (value, path_graphic) VALUES (?,?)',
-      (side, path),
+      (value, path),
       cursor=cursor,
     )
     id_sides.append(cursor.lastrowid)
