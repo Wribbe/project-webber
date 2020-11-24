@@ -17,10 +17,11 @@ void main() {
 
 let fragmentShaderSource = `#version 300 es
 precision highp float;
+uniform vec4 u_color;
 out vec4 outColor;
 
 void main() {
-  outColor = vec4(1, 0, 0.5, 1);
+  outColor = u_color;
 }`;
 
 function createShader(gl, type, source) {
@@ -103,6 +104,7 @@ resize(gl.canvas);
 gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
 let resolutionUniformLocation = gl.getUniformLocation(program, 'u_resolution');
+let colorLocation = gl.getUniformLocation(program, 'u_color');
 
 gl.clearColor(0, 0, 0, 0);
 gl.clear(gl.COLOR_BUFFER_BIT);
@@ -111,7 +113,48 @@ gl.useProgram(program);
 gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
 gl.bindVertexArray(vao);
 
+function setRectangle(gl, x, y, width, height) {
+  let x1 = x;
+  let x2 = x + width;
+  let y1 = y;
+  let y2 = y + height;
 
-let primitiveType = gl.TRIANGLES;
-let count = 6;
-gl.drawArrays(primitiveType, offset, count);
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    new Float32Array([
+      x1, y1,
+      x2, y1,
+      x1, y2,
+      x1, y2,
+      x2, y1,
+      x2, y2,
+    ]),
+    gl.STATIC_DRAW
+  );
+}
+
+function randomInt(range) {
+  return Math.floor(Math.random() * range);
+}
+
+for (var ii=0; ii < 50; ++ii) {
+  setRectangle(
+    gl,
+    randomInt(300),
+    randomInt(300),
+    randomInt(300),
+    randomInt(300),
+  );
+
+  gl.uniform4f(
+    colorLocation,
+    Math.random(),
+    Math.random(),
+    Math.random(),
+    1.0
+  );
+
+  let primitiveType = gl.TRIANGLES;
+  let count = 6;
+  gl.drawArrays(primitiveType, offset, count);
+}
